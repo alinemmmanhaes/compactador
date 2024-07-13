@@ -32,10 +32,10 @@ Arvore* liberaArvore(Arvore* a){
     return NULL;
 }
 
-int ArvoreVazia(Arvore* a){
+int arvoreVazia(Arvore* a){
     return a == NULL;
 }
 
-int folha(Arvore* a){
+int ehFolha(Arvore* a){
     return (arvoreVazia(a->esq) && arvoreVazia(a->dir));
 }

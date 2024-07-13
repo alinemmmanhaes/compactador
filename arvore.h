@@ -11,8 +11,8 @@ Arvore* criaArvore(int freq, char c, Arvore* esq, Arvore* dir);
 
 Arvore* liberaArvore(Arvore* a);
 
-int ArvoreVazia(Arvore* a);
+int arvoreVazia(Arvore* a);
 
-int folha(Arvore* a);
+int ehFolha(Arvore* a);
 
 #endif
