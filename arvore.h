@@ -15,4 +15,8 @@ int arvoreVazia(Arvore* a);
 
 int ehFolha(Arvore* a);
 
+int retornaFrequencia(Arvore* a);
+
+char retornaCaracter(Arvore* a);
+
 #endif

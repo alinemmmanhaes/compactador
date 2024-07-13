@@ -17,6 +17,7 @@ int main(int argc, char * argv[]){
         caracteres[(int)c]++;
     }
 
+
     fclose(pTexto);
 
     return 0;

@@ -39,3 +39,11 @@ int arvoreVazia(Arvore* a){
 int ehFolha(Arvore* a){
     return (arvoreVazia(a->esq) && arvoreVazia(a->dir));
 }
+
+int retornaFrequencia(Arvore* a){
+    return a->freq;
+}
+
+char retornaCaracter(Arvore* a){
+    return a->c;
+}
