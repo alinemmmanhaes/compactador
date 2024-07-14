@@ -47,3 +47,4 @@ int retornaFrequencia(Arvore* a){
 char retornaCaracter(Arvore* a){
     return a->c;
 }
+

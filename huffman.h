@@ -5,17 +5,16 @@
 #include <stdlib.h>
 #include "arvore.h"
 
-typedef struct lista Lista;
+typedef struct cel Cel;
+
+typedef Cel Lista;
 
 Lista *criaListaDeArvores(int *caracteres, int tam);
 
-//função de inserir de acordo com a frequencia, pra já ficar a lista ordenada, e pra poder usar na hora de implementar 
-//o algoritmo de huffman(função de criar a arvore unica)
+Lista *insereNaLista(Lista *l, Arvore *arv);
 
-//função de retirar da lista
+Lista *retiraInicioLista(Lista *l);
 
-void ordenaListaDeArvores(Lista *l, int tam);
-
-void criaArvoreUnica(Lista *l);
+Lista *criaArvoreUnica(Lista *l);
 
 #endif
