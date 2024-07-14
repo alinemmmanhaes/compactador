@@ -65,7 +65,7 @@ Arvore* retornaArvoreLista(Lista* l){
 
 void liberaLista(Lista* l){
     Lista* aux;
-    while(l != NULL){
+    while(l){
         aux = l;
         l = l->prox;
         free(aux);

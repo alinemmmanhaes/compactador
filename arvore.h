@@ -2,7 +2,6 @@
 #define arvore_h
 
 #include <stdio.h>
-#include "tabela.h"
 
 typedef struct arvore Arvore;
 
@@ -20,12 +19,10 @@ int retornaFrequencia(Arvore* a);
 
 char retornaCaracter(Arvore* a);
 
-unsigned int alturaArvore(Arvore* a);
+Arvore* retornaArvoreEsq(Arvore* a);
 
-/*Cria uma lista de tabelas de conversão
-Para cada caractere registrado na arvore, insere uma nova tabela à lista de tabelas
-Para cada tabela, o tamanho limite de bits no bitmap corresponde a altura da arvore
-*/
-Tabela* criaTabelas(Arvore* a, Tabela* tab, unsigned int altura);
+Arvore* retornaArvoreDir(Arvore* a);
+
+unsigned int alturaArvore(Arvore* a);
 
 #endif
