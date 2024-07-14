@@ -48,3 +48,27 @@ char retornaCaracter(Arvore* a){
     return a->c;
 }
 
+unsigned int alturaArvore(Arvore* a){
+    unsigned int n1 = 0, n2 = 0;
+    if(arvoreVazia(a)) return 0;
+
+    if(arvoreVazia(a->esq) && arvoreVazia(a->dir)) return 0;
+
+    n1 = 1 + alturaArvore(a->esq);
+    n2 = 1 + alturaArvore(a->dir);
+
+    return (n1>n2)?n1:n2;
+}
+
+Tabela* criaTabelas(Arvore* a, Tabela* tab, unsigned int altura){
+    if(a == NULL) return;
+
+    if(a->c != '\0'){
+        tab = insereTabela(tab, a->c, altura);
+    }
+
+    tab = criaTabelas(a->esq, tab, altura);
+    tab = criaTabelas(a->dir, tab, altura);
+
+    return tab;
+}

@@ -17,4 +17,8 @@ Lista *retiraInicioLista(Lista *l);
 
 Lista *criaArvoreUnica(Lista *l);
 
+Arvore* retornaArvoreLista(Lista* l);
+
+void liberaLista(Lista* l);
+
 #endif

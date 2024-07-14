@@ -59,3 +59,15 @@ Lista *criaArvoreUnica(Lista *l){
     return l;
 }
 
+Arvore* retornaArvoreLista(Lista* l){
+    return l->arv;
+}
+
+void liberaLista(Lista* l){
+    Lista* aux;
+    while(l != NULL){
+        aux = l;
+        l = l->prox;
+        free(aux);
+    }
+}
