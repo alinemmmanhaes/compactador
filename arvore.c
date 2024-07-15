@@ -4,6 +4,7 @@
 struct arvore{
     int freq;
     char c;
+    bitmap* bm;
     Arvore* esq;
     Arvore* dir;
 };
@@ -16,6 +17,7 @@ Arvore* criaArvore(int freq, char c, Arvore* esq, Arvore* dir){
     Arvore* arv = malloc(sizeof(Arvore));
     arv->freq = freq;
     arv->c = c;
+    arv->bm = NULL;
     arv->esq = esq;
     arv->dir = dir;
 
@@ -26,7 +28,7 @@ Arvore* liberaArvore(Arvore* a){
     if(!arvoreVazia(a)){
         liberaArvore(a->esq);
         liberaArvore(a->dir);
-
+        bitmapLibera(a->bm);
         free(a);
     }
     return NULL;
@@ -68,39 +70,52 @@ unsigned int alturaArvore(Arvore* a){
     return (n1>n2)?n1:n2;
 }
 
-/*deixei o codigo aqui para sua análise
-eu tinha feito essas duas funções funcoes abaixo nesse TAD, so que eu percebi que precisava que tabela.h incluisse arvore.h
-fiquei com medo que arvore.h incluindo tabela.h desse problema por conta de um incluir o outro
-qualquer coisa te explico melhor amanha
-assim, precisei fazer essas funções no tabela.c usando funcoes de retornar as coisas
-se voce tiver entendido o que eu disse, pode apagar tudo abaixo
-se não, vou te explicar melhor pessoalmente. nao apaga pq estou insegura com essa parte e so quero que voce apague se souber o que ta aqui
-*/
-/*
-Tabela* criaTabelas(Arvore* a, Tabela* tab, unsigned int altura){
-    if(a == NULL) return;
+Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
+    if(a == NULL){
+        return a;
+    }
+    bitmap* bm_novo = bitmapInit(tam);
+    if(bm){
+        for(int i=0; i<bitmapGetLength(bm); i++){
+            bitmapAppendLeastSignificantBit(bm_novo, bitmapGetBit(bm, i));
+        }
+        bitmapAppendLeastSignificantBit(bm_novo, bit);
+    }
 
     if(a->c != '\0'){
-        tab = insereTabela(tab, a->c, altura);
-        return;
+        a->bm = bm_novo;
+        return a;
     }
 
-    tab = criaTabelas(a->esq, tab, altura);
-    tab = criaTabelas(a->dir, tab, altura);
+    a->esq = percorreArvoreBM(a->esq, bm_novo, tam, ESQ);
+    a->dir = percorreArvoreBM(a->dir, bm_novo, tam, DIR);
 
-    return tab;
+    return a;
 }
 
-void criaBitsCaractere(Arvore* a, int num, int i, char c){
-    if(a == NULL) return;
-
-    if(c == a->c){
-        for(int j=1; j<=i; j++){
-        //faltou fazer aqui
+void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
+    char c;
+    bitmap* bm_aux;
+    while(fscanf(pTexto, "%c", &c) == 1){
+        bm_aux = retornaBMChar(a, c);
+        for(int i=0; i<bitmapGetLength(bm_aux); i++){
+            unsigned char bit = bitmapGetBit(bm_aux, i);
+            bitmapAppendLeastSignificantBit(bm, bit);
         }
     }
-
-    criaBitsCaractere(a->esq, num*10 + ESQ, i+1, c);
-    criaBitsCaractere(a->dir, num*10 + DIR, i+1, c);
+    //ADICIONAR CARACTERE DE PARADA
+    fwrite(bitmapGetContents(bm), sizeof(unsigned char), bitmapGetLength(bm)/8 + 1, pBin);
 }
-*/
+
+bitmap* retornaBMChar(Arvore* a, char c){
+    if(a == NULL){
+        return NULL;
+    }
+    if(c == a->c){
+        return a->bm;
+    }
+    if(retornaBMChar(a->esq, c)){
+        return retornaBMChar(a->esq, c);
+    }
+    return retornaBMChar(a->dir, c);
+}

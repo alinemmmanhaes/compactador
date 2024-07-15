@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "arvore.h"
 #include "huffman.h"
-#include "tabela.h"
+#include "bitmap.h"
 
-#define tam 128
+#define tam 256
+#define limiteBM 1000000
 
 int main(int argc, char * argv[]){
     char nomeArquivoTxt[100], nomeArquivoBin[200];
@@ -31,12 +32,7 @@ int main(int argc, char * argv[]){
     listaHuffman = criaArvoreUnica(listaHuffman);
     Arvore* arvoreHuffman = retornaArvoreLista(listaHuffman); 
 
-    //lista de tabelas de conversão
-    Tabela* tabela = NULL;
-    tabela = criaTabelas(arvoreHuffman, tabela, alturaArvore(arvoreHuffman));
-
-    //calcula os codigos em bits para cada caractere na tabela
-    codificaTabela(tabela, arvoreHuffman);
+    arvoreHuffman = percorreArvoreBM(arvoreHuffman, NULL, alturaArvore(arvoreHuffman), 0);
 
     //abre arquivo binario que conterá o codigo de conversão e texto compactado
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);
@@ -45,17 +41,18 @@ int main(int argc, char * argv[]){
     /*
     AQUI FALTA
     1- PASSAR PARA O BINARIO A TABELA E/OU A ARVORE
+    2- CARACTERE DE PARADA
     */
     
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
     pTexto = fopen(nomeArquivoTxt, "r");
-    escreveBinario(tabela, pTexto, pBinario);
+    bitmap* fraseFinal = bitmapInit(limiteBM);
+    escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     fclose(pTexto);
     fclose(pBinario);
 
     liberaLista(listaHuffman);
     liberaArvore(arvoreHuffman);
-    liberaTabela(tabela);
 
     return 0;
 }

@@ -2,6 +2,10 @@
 #define arvore_h
 
 #include <stdio.h>
+#include "bitmap.h"
+
+#define ESQ 0
+#define DIR 1
 
 typedef struct arvore Arvore;
 
@@ -24,5 +28,9 @@ Arvore* retornaArvoreEsq(Arvore* a);
 Arvore* retornaArvoreDir(Arvore* a);
 
 unsigned int alturaArvore(Arvore* a);
+
+Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit);
+
+bitmap* retornaBMChar(Arvore* a, char c);
 
 #endif

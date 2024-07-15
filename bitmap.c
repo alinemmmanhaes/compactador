@@ -129,9 +129,10 @@ void bitmapAppendLeastSignificantBit(bitmap* bm, unsigned char bit) {
  * @param bm O mapa de bits.
  */
 void bitmapLibera (bitmap* bm){
-    
-    free (bm->contents);
-    free (bm);
+    if(bm){
+		free (bm->contents);
+    	free (bm);
+	}
 }
 
 
