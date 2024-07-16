@@ -5,11 +5,11 @@ struct cel {
     Cel *prox;
 };
 
-Lista *criaListaDeArvores(int *caracteres, int tam){
+Lista *criaListaDeArvores(short int *caracteres, int tam){
     Lista *lista = NULL;
     for(int i=0; i<tam; i++){
         if(caracteres[i] > 0){
-            char c = (char)i;
+            unsigned char c = (unsigned char)i;
             Arvore *arv = criaArvore(caracteres[i], c, NULL, NULL);
             lista = insereNaLista(lista, arv);
         }
@@ -19,27 +19,27 @@ Lista *criaListaDeArvores(int *caracteres, int tam){
 
 Lista *insereNaLista(Lista *l, Arvore *arv){
     if(l == NULL){
-        Lista *c = malloc(sizeof(Lista));
-        c->arv = arv;
-        c->prox = NULL;
-        return c;
+        Lista *aux = malloc(sizeof(Lista));
+        aux->arv = arv;
+        aux->prox = NULL;
+        return aux;
     }
     else if(retornaFrequencia(arv) > retornaFrequencia(l->arv)){
         l->prox = insereNaLista(l->prox, arv);
     }
     else {
-        Lista *c = malloc(sizeof(Lista));
-        c->arv = arv;
-        c->prox = l;
-        return c;
+        Lista *aux = malloc(sizeof(Lista));
+        aux->arv = arv;
+        aux->prox = l;
+        return aux;
     }
     return l;
 }
 
 Lista *retiraInicioLista(Lista *l){
-    Lista *c = l;
+    Lista *aux = l;
     l = l->prox;
-    free(c);
+    free(aux);
     return l;
 }
 

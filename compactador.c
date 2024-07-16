@@ -12,17 +12,17 @@ int main(int argc, char * argv[]){
     sprintf(nomeArquivoTxt, "%s", argv[1]);
 
     //abre arquivo de texto que será compactado
-    FILE* pTexto = fopen(nomeArquivoTxt, "r");
+    FILE* pTexto = fopen(nomeArquivoTxt, "rb");
 
     //cria vetor de frequencia de caracteres zerado
-    int caracteres[tam];
+    short int caracteres[tam];
     for(int i=0; i<tam; i++){
         caracteres[i] = 0;
     }
 
     //contabiliza a frequencia dos caracteres no texto
-    char c;
-    while(fscanf(pTexto, "%c", &c) == 1){
+    unsigned char c;
+    while(fread(&c, sizeof(unsigned char), 1, pTexto) == 1){
         caracteres[(int)c]++;
     }
     fclose(pTexto);
@@ -38,14 +38,16 @@ int main(int argc, char * argv[]){
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);
     FILE* pBinario = fopen(nomeArquivoBin, "wb");
 
+    fwrite(caracteres, sizeof(short int), tam, pBinario);
+
     /*
     AQUI FALTA
-    1- PASSAR PARA O BINARIO A TABELA E/OU A ARVORE
-    2- CARACTERE DE PARADA
+    1- VETOR DE BITMAPS > 1MEGA
+    2- GUARDAR A ARVORE
     */
     
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
-    pTexto = fopen(nomeArquivoTxt, "r");
+    pTexto = fopen(nomeArquivoTxt, "rb");
     bitmap* fraseFinal = bitmapInit(limiteBM);
     escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     fclose(pTexto);
@@ -53,6 +55,7 @@ int main(int argc, char * argv[]){
 
     liberaLista(listaHuffman);
     liberaArvore(arvoreHuffman);
+    bitmapLibera(fraseFinal);
 
     return 0;
 }

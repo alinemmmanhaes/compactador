@@ -11,7 +11,7 @@ typedef struct arvore Arvore;
 
 Arvore* criaArvoreVazia();
 
-Arvore* criaArvore(int freq, char c, Arvore* esq, Arvore* dir);
+Arvore* criaArvore(short int freq, unsigned char c, Arvore* esq, Arvore* dir);
 
 Arvore* liberaArvore(Arvore* a);
 
@@ -19,9 +19,9 @@ int arvoreVazia(Arvore* a);
 
 int ehFolha(Arvore* a);
 
-int retornaFrequencia(Arvore* a);
+short int retornaFrequencia(Arvore* a);
 
-char retornaCaracter(Arvore* a);
+unsigned char retornaCaracter(Arvore* a);
 
 Arvore* retornaArvoreEsq(Arvore* a);
 
@@ -31,6 +31,10 @@ unsigned int alturaArvore(Arvore* a);
 
 Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit);
 
-bitmap* retornaBMChar(Arvore* a, char c);
+void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm);
+
+void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm);
+
+bitmap* retornaBMChar(Arvore* a, unsigned char c);
 
 #endif

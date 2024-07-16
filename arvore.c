@@ -2,8 +2,8 @@
 #include "arvore.h"
 
 struct arvore{
-    int freq;
-    char c;
+    short int freq;
+    unsigned char c;
     bitmap* bm;
     Arvore* esq;
     Arvore* dir;
@@ -13,7 +13,7 @@ Arvore* criaArvoreVazia(){
     return NULL;
 }
 
-Arvore* criaArvore(int freq, char c, Arvore* esq, Arvore* dir){
+Arvore* criaArvore(short int freq, unsigned char c, Arvore* esq, Arvore* dir){
     Arvore* arv = malloc(sizeof(Arvore));
     arv->freq = freq;
     arv->c = c;
@@ -42,11 +42,11 @@ int ehFolha(Arvore* a){
     return (arvoreVazia(a->esq) && arvoreVazia(a->dir));
 }
 
-int retornaFrequencia(Arvore* a){
+short int retornaFrequencia(Arvore* a){
     return a->freq;
 }
 
-char retornaCaracter(Arvore* a){
+unsigned char retornaCaracter(Arvore* a){
     return a->c;
 }
 
@@ -82,7 +82,7 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
         bitmapAppendLeastSignificantBit(bm_novo, bit);
     }
 
-    if(a->c != '\0'){
+    if(ehFolha(a)){
         a->bm = bm_novo;
         return a;
     }
@@ -94,20 +94,32 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
 }
 
 void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
-    char c;
+    unsigned char c;
     bitmap* bm_aux;
-    while(fscanf(pTexto, "%c", &c) == 1){
+    while(fread(&c, sizeof(unsigned char), 1, pTexto) == 1){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
             bitmapAppendLeastSignificantBit(bm, bit);
         }
     }
-    //ADICIONAR CARACTERE DE PARADA
+    unsigned int length = bitmapGetLength(bm);
+    fwrite(&length, sizeof(unsigned int), 1, pBin);
     fwrite(bitmapGetContents(bm), sizeof(unsigned char), bitmapGetLength(bm)/8 + 1, pBin);
 }
 
-bitmap* retornaBMChar(Arvore* a, char c){
+void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
+    unsigned int length;
+    fread(&length, sizeof(unsigned int), 1, pBin);
+    fread(bitmapGetContents(bm), sizeof(unsigned char), length/8 + 1, pBin);
+
+    int i;
+    for(i=0; i<length; i++){
+        //funcao com Arvore* a, FILE* pTexto, bitmap* bm, int* i
+    }
+}
+
+bitmap* retornaBMChar(Arvore* a, unsigned char c){
     if(a == NULL){
         return NULL;
     }
