@@ -8,7 +8,7 @@
 #define limiteBM 1000000
 
 int main(int argc, char * argv[]){
-    char nomeArquivoTxt[100], nomeArquivoBin[200], extensao[10];
+    char nomeArquivoTxt[100], nomeArquivoBin[200], nomeArquivo[90], extensao[10];
     sprintf(nomeArquivoBin, "%s", argv[1]);
 
     FILE* pBinario = fopen(nomeArquivoBin, "rb");
@@ -21,11 +21,20 @@ int main(int argc, char * argv[]){
 
     arvoreHuffman = percorreArvoreBM(arvoreHuffman, NULL, alturaArvore(arvoreHuffman), 0);
 
-    sscanf(nomeArquivoBin, "%[^.]%[^.].comp", nomeArquivoTxt, extensao);
-    sprintf(nomeArquivoTxt, "%s%s", nomeArquivoTxt, extensao);
+    sscanf(nomeArquivoBin, "%[^.].%[^.].comp", nomeArquivo, extensao);
+    sprintf(nomeArquivoTxt, "%s.%s", nomeArquivo, extensao);
     FILE* pTexto = fopen(nomeArquivoTxt, "wb");
 
-    bitmap* frasefinal = bitmapInit(limiteBM);
+    bitmap* fraseFinal = bitmapInit(limiteBM);
+
+    leBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
+
+    fclose(pTexto);
+    fclose(pBinario);
+
+    liberaLista(listaHuffman);
+    liberaArvore(arvoreHuffman);
+    bitmapLibera(fraseFinal);
 
     return 0;
 }

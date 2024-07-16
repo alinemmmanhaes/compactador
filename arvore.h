@@ -37,4 +37,6 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm);
 
 bitmap* retornaBMChar(Arvore* a, unsigned char c);
 
+void decodifica(Arvore* a, FILE* pTexto, bitmap* bm, int* i);
+
 #endif
