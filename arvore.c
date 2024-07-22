@@ -90,6 +90,8 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
     a->esq = percorreArvoreBM(a->esq, bm_novo, tam, ESQ);
     a->dir = percorreArvoreBM(a->dir, bm_novo, tam, DIR);
 
+    bitmapLibera(bm_novo);
+
     return a;
 }
 
@@ -100,10 +102,8 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
-            printf("%0x", bit);
             bitmapAppendLeastSignificantBit(bm, bit);
         }
-        printf(" ");
     }
     unsigned int length = bitmapGetLength(bm);
     fwrite(&length, sizeof(unsigned int), 1, pBin);
@@ -126,6 +126,7 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
     int i;
     for(i=0; i<length; i++){
         decodifica(a, pTexto, bm, &i);
+        i--;
     }
 }
 

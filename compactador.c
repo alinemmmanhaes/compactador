@@ -13,6 +13,10 @@ int main(int argc, char * argv[]){
 
     //abre arquivo de texto que será compactado
     FILE* pTexto = fopen(nomeArquivoTxt, "rb");
+    if(!pTexto){
+        printf("O arquivo de entrada nao pode ser aberto\n");
+        exit(1);
+    }
 
     //cria vetor de frequencia de caracteres zerado
     short int caracteres[tam];
@@ -45,6 +49,7 @@ int main(int argc, char * argv[]){
     AQUI FALTA
     1- VETOR DE BITMAPS > 1MEGA
     2- GUARDAR A ARVORE
+    3- IMAGEM
     */
     
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
@@ -55,7 +60,7 @@ int main(int argc, char * argv[]){
     fclose(pBinario);
 
     liberaLista(listaHuffman);
-    liberaArvore(arvoreHuffman);
+    arvoreHuffman = liberaArvore(arvoreHuffman);
     bitmapLibera(fraseFinal);
 
     return 0;
