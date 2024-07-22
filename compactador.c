@@ -33,6 +33,7 @@ int main(int argc, char * argv[]){
     Arvore* arvoreHuffman = retornaArvoreLista(listaHuffman); 
 
     arvoreHuffman = percorreArvoreBM(arvoreHuffman, NULL, alturaArvore(arvoreHuffman), 0);
+    //imprime(arvoreHuffman);
 
     //abre arquivo binario que conterá o codigo de conversão e texto compactado
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);

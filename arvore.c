@@ -100,8 +100,10 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
+            printf("%0x", bit);
             bitmapAppendLeastSignificantBit(bm, bit);
         }
+        printf(" ");
     }
     unsigned int length = bitmapGetLength(bm);
     fwrite(&length, sizeof(unsigned int), 1, pBin);
@@ -156,4 +158,21 @@ void decodifica(Arvore* a, FILE* pTexto, bitmap* bm, int* i){
         (*i)++;
         decodifica(a->dir, pTexto, bm, i);
     }
+}
+
+void imprime(Arvore *a){
+    //printf("<");
+    if(a){
+        printf("%c: ", a->c);
+        if(a->bm){
+            for(int i=0; i<bitmapGetLength(a->bm); i++){
+                unsigned char bit = bitmapGetBit(a->bm, i);
+                printf("%0x", bit);
+            }
+            printf("\n");
+        }
+        imprime(a->esq);
+        imprime(a->dir);
+    }
+    //printf(">");
 }

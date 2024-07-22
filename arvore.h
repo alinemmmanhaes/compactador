@@ -39,4 +39,6 @@ bitmap* retornaBMChar(Arvore* a, unsigned char c);
 
 void decodifica(Arvore* a, FILE* pTexto, bitmap* bm, int* i);
 
+void imprime(Arvore *a);
+
 #endif
