@@ -5,7 +5,7 @@ struct cel {
     Cel *prox;
 };
 
-Lista *criaListaDeArvores(short int *caracteres, int tam){
+Lista *criaListaDeArvores(int *caracteres, int tam){
     Lista *lista = NULL;
     for(int i=0; i<tam; i++){
         if(caracteres[i] > 0){

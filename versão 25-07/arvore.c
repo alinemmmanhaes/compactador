@@ -2,7 +2,7 @@
 #include "arvore.h"
 
 struct arvore{
-    short int freq;
+    int freq;
     unsigned char c;
     bitmap* bm;
     Arvore* esq;
@@ -19,7 +19,7 @@ Arvore* criaArvoreVazia(){
     return arv;
 }
 
-Arvore* criaArvore(short int freq, unsigned char c, Arvore* esq, Arvore* dir){
+Arvore* criaArvore(int freq, unsigned char c, Arvore* esq, Arvore* dir){
     Arvore* arv = malloc(sizeof(Arvore));
     arv->freq = freq;
     arv->c = c;
@@ -48,7 +48,7 @@ int ehFolha(Arvore* a){
     return (arvoreVazia(a->esq) && arvoreVazia(a->dir));
 }
 
-short int retornaFrequencia(Arvore* a){
+int retornaFrequencia(Arvore* a){
     return a->freq;
 }
 
@@ -93,10 +93,9 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
         return a;
     }
 
+    a->bm = bm_novo;
     a->esq = percorreArvoreBM(a->esq, bm_novo, tam, ESQ);
     a->dir = percorreArvoreBM(a->dir, bm_novo, tam, DIR);
-
-    bitmapLibera(bm_novo);
 
     return a;
 }

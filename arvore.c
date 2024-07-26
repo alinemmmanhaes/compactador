@@ -2,7 +2,7 @@
 #include "arvore.h"
 
 struct arvore{
-    short int freq;
+    int freq;
     unsigned char c;
     bitmap* bm;
     Arvore* esq;
@@ -19,7 +19,7 @@ Arvore* criaArvoreVazia(){
     return arv;
 }
 
-Arvore* criaArvore(short int freq, unsigned char c, Arvore* esq, Arvore* dir){
+Arvore* criaArvore(int freq, unsigned char c, Arvore* esq, Arvore* dir){
     Arvore* arv = malloc(sizeof(Arvore));
     arv->freq = freq;
     arv->c = c;
@@ -48,7 +48,7 @@ int ehFolha(Arvore* a){
     return (arvoreVazia(a->esq) && arvoreVazia(a->dir));
 }
 
-short int retornaFrequencia(Arvore* a){
+int retornaFrequencia(Arvore* a){
     return a->freq;
 }
 
@@ -93,46 +93,69 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
         return a;
     }
 
+    a->bm = bm_novo;
     a->esq = percorreArvoreBM(a->esq, bm_novo, tam, ESQ);
     a->dir = percorreArvoreBM(a->dir, bm_novo, tam, DIR);
-
-    bitmapLibera(bm_novo);
 
     return a;
 }
 
-void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
+void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
     unsigned char c;
     bitmap* bm_aux;
+    int index = 0, flag = 0;
     while(fread(&c, sizeof(unsigned char), 1, pTexto) == 1){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
-            //if length == tamanho max
-            bitmapAppendLeastSignificantBit(bm, bit);
+            if(index < 20){
+                if(bitmapGetMaxSize(bm[index]) == bitmapGetLength(bm[index])){
+                    index++;
+                    if(index == 20){
+                        flag = 1;
+                    }
+                }
+            }
+            if(!flag){
+                bitmapAppendLeastSignificantBit(bm[index], bit);
+            }
         }
     }
-    unsigned int length = bitmapGetLength(bm);
-    fwrite(&length, sizeof(unsigned int), 1, pBin);
-    fwrite(bitmapGetContents(bm), sizeof(unsigned char), (bitmapGetLength(bm)+7)/8, pBin);
+    if(flag){
+        index = 19;
+    }
+    index++;
+    fwrite(&index, sizeof(int), 1, pBin);
+    for(int i=0; i<index; i++){
+        unsigned int length = bitmapGetLength(bm[i]);
+        fwrite(&length, sizeof(unsigned int), 1, pBin);
+        fwrite(bitmapGetContents(bm[i]), sizeof(unsigned char), (bitmapGetLength(bm[i])+7)/8, pBin); 
+    }
 }
 
-void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap* bm){
-    unsigned int length;
-    fread(&length, sizeof(unsigned int), 1, pBin);
-
-    for(int i=0; i<(length+7)/8; i++){
-        unsigned char c;
-        fread(&c, sizeof(unsigned char), 1, pBin);
-        for(int j=0; j<8; j++){
-            bitmapAppendLeastSignificantBit(bm, c >> (7-j) & 0x01);
+void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
+    int index;
+    fread(&index, sizeof(int), 1, pBin);
+    unsigned int length[index];
+    for(int j=0; j<index; j++){
+        fread(&length[j], sizeof(unsigned int), 1, pBin);
+        printf("%d\n", j);
+        for(int i=0; i<(length[j]+7)/8; i++){
+            unsigned char c;
+            fread(&c, sizeof(unsigned char), 1, pBin);
+            for(int k=0; k<8; k++){
+                bitmapAppendLeastSignificantBit(bm[j], c >> (7-k) & 0x01);
+            }
         }
+        printf("%d\n", j);
     }
-
-    int i;
-    for(i=0; i<length; i++){
-        decodifica(a, pTexto, bm, &i);
-        i--;
+    printf("1/n");
+    for(int j=0; j<index; j++){
+        int i;
+        for(i=0; i<length[j]; i++){
+            decodifica(a, pTexto, bm[j], &i);
+            i--;
+        }
     }
 }
 

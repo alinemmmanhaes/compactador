@@ -19,7 +19,7 @@ int main(int argc, char * argv[]){
     }
 
     //cria vetor de frequencia de caracteres zerado
-    short int caracteres[tam];
+    int caracteres[tam];
     for(int i=0; i<tam; i++){
         caracteres[i] = 0;
     }
@@ -41,7 +41,6 @@ int main(int argc, char * argv[]){
     //abre arquivo binario que conterá o codigo de conversão e texto compactado
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);
     FILE* pBinario = fopen(nomeArquivoBin, "wb");
-
     /*
     AQUI FALTA
     1- VETOR DE BITMAPS > 1MEGA
@@ -54,14 +53,19 @@ int main(int argc, char * argv[]){
 
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
     pTexto = fopen(nomeArquivoTxt, "rb");
-    bitmap* fraseFinal = bitmapInit(limiteBM);
+    bitmap* fraseFinal[20];
+    for(int i=0; i<20; i++){
+        fraseFinal[i] = bitmapInit(limiteBM);
+    }
     escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     fclose(pTexto);
     fclose(pBinario);
 
     liberaLista(listaHuffman);
     arvoreHuffman = liberaArvore(arvoreHuffman);
-    bitmapLibera(fraseFinal);
+    for(int i=0; i<20; i++){
+        bitmapLibera(fraseFinal[i]);
+    }
     bitmapLibera(arvoreBM);
 
     return 0;

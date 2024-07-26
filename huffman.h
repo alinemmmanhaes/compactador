@@ -9,7 +9,7 @@ typedef struct cel Cel;
 
 typedef Cel Lista;
 
-Lista *criaListaDeArvores(short int *caracteres, int tam);
+Lista *criaListaDeArvores(int *caracteres, int tam);
 
 Lista *insereNaLista(Lista *l, Arvore *arv);
 

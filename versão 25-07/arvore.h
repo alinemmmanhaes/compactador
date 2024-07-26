@@ -11,7 +11,7 @@ typedef struct arvore Arvore;
 
 Arvore* criaArvoreVazia();
 
-Arvore* criaArvore(short int freq, unsigned char c, Arvore* esq, Arvore* dir);
+Arvore* criaArvore(int freq, unsigned char c, Arvore* esq, Arvore* dir);
 
 Arvore* liberaArvore(Arvore* a);
 
@@ -19,7 +19,7 @@ int arvoreVazia(Arvore* a);
 
 int ehFolha(Arvore* a);
 
-short int retornaFrequencia(Arvore* a);
+int retornaFrequencia(Arvore* a);
 
 unsigned char retornaCaracter(Arvore* a);
 

@@ -19,7 +19,7 @@ int main(int argc, char * argv[]){
     }
 
     //cria vetor de frequencia de caracteres zerado
-    short int caracteres[tam];
+    int caracteres[tam];
     for(int i=0; i<tam; i++){
         caracteres[i] = 0;
     }
@@ -58,8 +58,8 @@ int main(int argc, char * argv[]){
     escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     fclose(pTexto);
     fclose(pBinario);
-
-    liberaLista(listaHuffman);
+    printf("1\n");
+    
     arvoreHuffman = liberaArvore(arvoreHuffman);
     bitmapLibera(fraseFinal);
     bitmapLibera(arvoreBM);
