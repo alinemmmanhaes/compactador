@@ -108,10 +108,10 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
-            if(index < 40){
+            if(index < 20){
                 if(bitmapGetMaxSize(bm[index]) == bitmapGetLength(bm[index])){
                     index++;
-                    if(index == 40){
+                    if(index == 20){
                         flag = 1;
                     }
                 }
@@ -122,7 +122,7 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
         }
     }
     if(flag){
-        index = 39;
+        index = 19;
     }
     index++;
     fwrite(&index, sizeof(int), 1, pBin);
@@ -139,7 +139,6 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
     unsigned int length[index];
     for(int j=0; j<index; j++){
         fread(&length[j], sizeof(unsigned int), 1, pBin);
-        //printf("%d\n", j);
         for(int i=0; i<(length[j]+7)/8; i++){
             unsigned char c;
             fread(&c, sizeof(unsigned char), 1, pBin);
@@ -147,15 +146,15 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
                 bitmapAppendLeastSignificantBit(bm[j], c >> (7-k) & 0x01);
             }
         }
-        //printf("%d\n", j);
     }
-    //printf("1/n");
+    unsigned int totalLength = 0;
     for(int j=0; j<index; j++){
-        int i = 0;
-        for(i=0; i<length[j]; i++){
-            decodifica(a, pTexto, bm[j], &i);
-            i--;
-        }
+        totalLength += length[j];
+    }
+    int i = 0, ind = 0, bit = 0;
+    for(i=0; i<totalLength; i++){
+        decodifica(a, pTexto, bm, &i, &ind, &bit);
+        i--;
     }
 }
 
@@ -163,7 +162,7 @@ bitmap* retornaBMChar(Arvore* a, unsigned char c){
     if(a == NULL){
         return NULL;
     }
-    if(c == a->c){
+    if(c == a->c && ehFolha(a)){
         return a->bm;
     }
     if(retornaBMChar(a->esq, c)){
@@ -172,7 +171,7 @@ bitmap* retornaBMChar(Arvore* a, unsigned char c){
     return retornaBMChar(a->dir, c);
 }
 
-void decodifica(Arvore* a, FILE* pTexto, bitmap* bm, int* i){
+void decodifica(Arvore* a, FILE* pTexto, bitmap** bm, int* totalLength, int* index, int* i){
     if(a == NULL){
         return;
     }
@@ -180,13 +179,19 @@ void decodifica(Arvore* a, FILE* pTexto, bitmap* bm, int* i){
         fwrite(&(a->c), sizeof(unsigned char), 1, pTexto);
         return;
     }
-    if(bitmapGetBit(bm, *i) == 0){
-        (*i)++;
-        decodifica(a->esq, pTexto, bm, i);
+    if(*i == bitmapGetLength(bm[*index])){
+        (*index)++;
+        *i = 0;
     }
-    else if(bitmapGetBit(bm, *i) == 1){
+    if(bitmapGetBit(bm[*index], *i) == 0){
         (*i)++;
-        decodifica(a->dir, pTexto, bm, i);
+        (*totalLength)++;
+        decodifica(a->esq, pTexto, bm, totalLength, index, i);
+    }
+    else if(bitmapGetBit(bm[*index], *i) == 1){
+        (*i)++;
+        (*totalLength)++;
+        decodifica(a->dir, pTexto, bm, totalLength, index, i);
     }
 }
 

@@ -53,8 +53,8 @@ int main(int argc, char * argv[]){
 
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
     pTexto = fopen(nomeArquivoTxt, "rb");
-    bitmap* fraseFinal[40];
-    for(int i=0; i<40; i++){
+    bitmap* fraseFinal[20];
+    for(int i=0; i<20; i++){
         fraseFinal[i] = bitmapInit(limiteBM);
     }
     escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
@@ -63,7 +63,7 @@ int main(int argc, char * argv[]){
 
     liberaLista(listaHuffman);
     arvoreHuffman = liberaArvore(arvoreHuffman);
-    for(int i=0; i<40; i++){
+    for(int i=0; i<20; i++){
         bitmapLibera(fraseFinal[i]);
     }
     bitmapLibera(arvoreBM);
