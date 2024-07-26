@@ -27,8 +27,8 @@ int main(int argc, char * argv[]){
     sprintf(nomeArquivoTxt, "%s2.%s", nomeArquivo, extensao);
     FILE* pTexto = fopen(nomeArquivoTxt, "wb");
 
-    bitmap* fraseFinal[10];
-    for(int i=0; i<10; i++){
+    bitmap* fraseFinal[40];
+    for(int i=0; i<40; i++){
         fraseFinal[i] = bitmapInit(limiteBM);
     }
 
@@ -38,7 +38,7 @@ int main(int argc, char * argv[]){
     fclose(pBinario);
 
     liberaArvore(arvoreHuffman);
-    for(int i=0; i<10; i++){
+    for(int i=0; i<40; i++){
         bitmapLibera(fraseFinal[i]);
     }
     bitmapLibera(arvoreBM);

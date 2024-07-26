@@ -108,10 +108,10 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
-            if(index < 20){
+            if(index < 40){
                 if(bitmapGetMaxSize(bm[index]) == bitmapGetLength(bm[index])){
                     index++;
-                    if(index == 20){
+                    if(index == 40){
                         flag = 1;
                     }
                 }
@@ -122,7 +122,7 @@ void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
         }
     }
     if(flag){
-        index = 19;
+        index = 39;
     }
     index++;
     fwrite(&index, sizeof(int), 1, pBin);
@@ -139,7 +139,7 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
     unsigned int length[index];
     for(int j=0; j<index; j++){
         fread(&length[j], sizeof(unsigned int), 1, pBin);
-        printf("%d\n", j);
+        //printf("%d\n", j);
         for(int i=0; i<(length[j]+7)/8; i++){
             unsigned char c;
             fread(&c, sizeof(unsigned char), 1, pBin);
@@ -147,11 +147,11 @@ void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
                 bitmapAppendLeastSignificantBit(bm[j], c >> (7-k) & 0x01);
             }
         }
-        printf("%d\n", j);
+        //printf("%d\n", j);
     }
-    printf("1/n");
+    //printf("1/n");
     for(int j=0; j<index; j++){
-        int i;
+        int i = 0;
         for(i=0; i<length[j]; i++){
             decodifica(a, pTexto, bm[j], &i);
             i--;
