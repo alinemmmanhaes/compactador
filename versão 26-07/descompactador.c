@@ -5,6 +5,7 @@
 #include "bitmap.h"
 
 #define tam 256
+#define limiteBM 1000000
 
 int main(int argc, char * argv[]){
     char nomeArquivoTxt[101], nomeArquivoBin[200], nomeArquivo[90], extensao[10];
@@ -26,17 +27,20 @@ int main(int argc, char * argv[]){
     sprintf(nomeArquivoTxt, "%s2.%s", nomeArquivo, extensao);
     FILE* pTexto = fopen(nomeArquivoTxt, "wb");
 
-    int nBitMap = 1;
-    bitmap** fraseFinal = leBinario(arvoreHuffman, pTexto, pBinario, fraseFinal, &nBitMap);
+    bitmap* fraseFinal[20];
+    for(int i=0; i<20; i++){
+        fraseFinal[i] = bitmapInit(limiteBM);
+    }
+
+    leBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     
     fclose(pTexto);
     fclose(pBinario);
 
     liberaArvore(arvoreHuffman);
-    for(int i=0; i<nBitMap; i++){
+    for(int i=0; i<20; i++){
         bitmapLibera(fraseFinal[i]);
     }
-    free(fraseFinal);
     bitmapLibera(arvoreBM);
 
     return 0;

@@ -6,7 +6,6 @@
 
 #define ESQ 0
 #define DIR 1
-#define limiteBM 1000000
 
 typedef struct arvore Arvore;
 
@@ -32,9 +31,9 @@ unsigned int alturaArvore(Arvore* a);
 
 Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit);
 
-bitmap** escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMap);
+void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm);
 
-bitmap** leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMap);
+void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm);
 
 bitmap* retornaBMChar(Arvore* a, unsigned char c);
 

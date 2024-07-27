@@ -5,6 +5,7 @@
 #include "bitmap.h"
 
 #define tam 256
+#define limiteBM 1000000
 
 int main(int argc, char * argv[]){
     char nomeArquivoTxt[100], nomeArquivoBin[200];
@@ -42,10 +43,10 @@ int main(int argc, char * argv[]){
     FILE* pBinario = fopen(nomeArquivoBin, "wb");
     /*
     AQUI FALTA
-    1- TIRAR O 2 DO ARQUIVO FINAL
-    2- COMENTAR
-    3- TIRAR FUNCOES ARVORE
-    4- ATUALIZAR MAKEFILE
+    1- REALLOC
+    2- TIRAR O 2 DO ARQUIVO FINAL
+    3- COMENTAR
+    4- TIRAR FUNCOES ARVORE
     */
     
     bitmap* arvoreBM = bitmapInit(limiteBM);
@@ -53,20 +54,19 @@ int main(int argc, char * argv[]){
 
     //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
     pTexto = fopen(nomeArquivoTxt, "rb");
-    int nBitMap = 1;
-    bitmap** fraseFinal = malloc(sizeof(bitmap*));
-    fraseFinal[nBitMap - 1] = bitmapInit(limiteBM);
-
-    fraseFinal = escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal, &nBitMap);
+    bitmap* fraseFinal[20];
+    for(int i=0; i<20; i++){
+        fraseFinal[i] = bitmapInit(limiteBM);
+    }
+    escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal);
     fclose(pTexto);
     fclose(pBinario);
 
     liberaLista(listaHuffman);
     arvoreHuffman = liberaArvore(arvoreHuffman);
-    for(int i=0; i<nBitMap; i++){
+    for(int i=0; i<20; i++){
         bitmapLibera(fraseFinal[i]);
     }
-    free(fraseFinal);
     bitmapLibera(arvoreBM);
 
     return 0;

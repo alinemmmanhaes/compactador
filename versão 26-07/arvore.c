@@ -102,39 +102,44 @@ Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
     return a;
 }
 
-bitmap** escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMap){
+void escreveBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
     unsigned char c;
     bitmap* bm_aux;
+    int index = 0, flag = 0;
     while(fread(&c, sizeof(unsigned char), 1, pTexto) == 1){
         bm_aux = retornaBMChar(a, c);
         for(int i=0; i<bitmapGetLength(bm_aux); i++){
             unsigned char bit = bitmapGetBit(bm_aux, i);
-            if(bitmapGetMaxSize(bm[*nBitMap - 1]) == bitmapGetLength(bm[*nBitMap - 1])){
-                (*nBitMap)++;
-                bm = realloc(bm, (*nBitMap)*sizeof(bitmap*));
-                bm[*nBitMap-1] = bitmapInit(limiteBM);
+            if(index < 20){
+                if(bitmapGetMaxSize(bm[index]) == bitmapGetLength(bm[index])){
+                    index++;
+                    if(index == 20){
+                        flag = 1;
+                    }
+                }
             }
-            bitmapAppendLeastSignificantBit(bm[*nBitMap - 1], bit);
+            if(!flag){
+                bitmapAppendLeastSignificantBit(bm[index], bit);
+            }
         }
     }
-    fwrite(nBitMap, sizeof(int), 1, pBin);
-    for(int i=0; i<*nBitMap; i++){
+    if(flag){
+        index = 19;
+    }
+    index++;
+    fwrite(&index, sizeof(int), 1, pBin);
+    for(int i=0; i<index; i++){
         unsigned int length = bitmapGetLength(bm[i]);
         fwrite(&length, sizeof(unsigned int), 1, pBin);
         fwrite(bitmapGetContents(bm[i]), sizeof(unsigned char), (bitmapGetLength(bm[i])+7)/8, pBin); 
     }
-
-    return bm;
 }
 
-bitmap** leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMap){
-    fread(nBitMap, sizeof(int), 1, pBin);
-    bm = malloc((*nBitMap)*sizeof(bitmap*));
-    for(int i=0; i<(*nBitMap); i++){
-        bm[i] = bitmapInit(limiteBM);
-    }
-    unsigned int length[*nBitMap];
-    for(int j=0; j<*nBitMap; j++){
+void leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm){
+    int index;
+    fread(&index, sizeof(int), 1, pBin);
+    unsigned int length[index];
+    for(int j=0; j<index; j++){
         fread(&length[j], sizeof(unsigned int), 1, pBin);
         for(int i=0; i<(length[j]+7)/8; i++){
             unsigned char c;
@@ -145,7 +150,7 @@ bitmap** leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMa
         }
     }
     unsigned int totalLength = 0;
-    for(int j=0; j<*nBitMap; j++){
+    for(int j=0; j<index; j++){
         totalLength += length[j];
     }
     int i = 0, ind = 0, bit = 0;
@@ -153,7 +158,6 @@ bitmap** leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMa
         decodifica(a, pTexto, bm, &i, &ind, &bit);
         i--;
     }
-    return bm;
 }
 
 bitmap* retornaBMChar(Arvore* a, unsigned char c){
