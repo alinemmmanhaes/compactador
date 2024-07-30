@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "binario.h"
 #include "arvore.h"
 #include "huffman.h"
 #include "bitmap.h"
@@ -40,11 +41,11 @@ int main(int argc, char * argv[]){
     //abre arquivo binario que conterá o codigo de conversão e texto compactado
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);
     FILE* pBinario = fopen(nomeArquivoBin, "wb");
+    
     /*
     AQUI FALTA
     1- COMENTAR
-    3- TIRAR FUNCOES ARVORE
-    4- ATUALIZAR MAKEFILE
+    2- ATUALIZAR PDF COM BINARIO.C
     */
     
     bitmap* arvoreBM = bitmapInit(limiteBM);

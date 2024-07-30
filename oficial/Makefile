@@ -3,8 +3,8 @@ all: compacta descompacta
 
 #Compila todos os arquivos.c e gera o executável do compactador
 compacta:
-	gcc bitmap.c arvore.c huffman.c compactador.c -o compacta
+	gcc bitmap.c arvore.c huffman.c binario.c compactador.c -o compacta
 
 #Compila todos os arquivos.c e gera o executável do descompactador
 descompacta:
-	gcc bitmap.c arvore.c huffman.c descompactador.c -o descompacta
+	gcc bitmap.c arvore.c huffman.c binario.c descompactador.c -o descompacta

@@ -44,7 +44,6 @@ Lista *retiraInicioLista(Lista *l){
 }
 
 Lista *criaArvoreUnica(Lista *l){
-    //Continua o processo até que só haja uma única célula na Lista
     while(l->prox != NULL){
         Arvore *node1 = l->arv;
         l = retiraInicioLista(l);
