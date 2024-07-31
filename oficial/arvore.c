@@ -58,14 +58,6 @@ unsigned char retornaCaracter(Arvore* a){
     return a->c;
 }
 
-/*Arvore* retornaArvoreEsq(Arvore* a){
-    return a->esq;
-}
-
-Arvore* retornaArvoreDir(Arvore* a){
-    return a->dir;
-}*/
-
 unsigned int alturaArvore(Arvore* a){
     unsigned int n1 = 0, n2 = 0;
     if(arvoreVazia(a)) return 0;
@@ -77,21 +69,6 @@ unsigned int alturaArvore(Arvore* a){
 
     return (n1>n2)?n1:n2;
 }
-
-/*void imprime(Arvore *a){
-    if(a){
-        printf("%c: ", a->c);
-        if(a->bm){
-            for(int i=0; i<bitmapGetLength(a->bm); i++){
-                unsigned char bit = bitmapGetBit(a->bm, i);
-                printf("%0x", bit);
-            }
-            printf("\n");
-        }
-        imprime(a->esq);
-        imprime(a->dir);
-    }
-}*/
 
 Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit){
     if(a == NULL){
@@ -153,8 +130,6 @@ void decodifica(Arvore* a, FILE* pTexto, bitmap** bm, int* totalLength, int* ind
         decodifica(a->dir, pTexto, bm, totalLength, index, i);
     }
 }
-
-
 
 void converteCharBinario(bitmap* bm, unsigned char c){
     int num = (int) c, div = 128;

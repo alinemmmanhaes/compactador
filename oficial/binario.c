@@ -55,7 +55,10 @@ bitmap** leBinario(Arvore* a, FILE* pTexto, FILE* pBin, bitmap** bm, int* nBitMa
 }
 
 void escreveArvoreBinario(Arvore* a, bitmap* bm, FILE* pBin){
+    //transforma a árvore em bitmap
     escreveArvoreBM(a, bm);
+
+    //escreve o bitmap no arquivo binário
     unsigned int length = bitmapGetLength(bm);
     fwrite(&length, sizeof(unsigned int), 1, pBin);
     fwrite(bitmapGetContents(bm), sizeof(unsigned char), (bitmapGetLength(bm)+7)/8, pBin);

@@ -18,7 +18,7 @@ int main(int argc, char * argv[]){
         exit(1);
     }
 
-    //cria vetor de frequencia de caracteres zerado
+    //cria vetor de frequência de caracteres zerado
     int caracteres[tam];
     for(int i=0; i<tam; i++){
         caracteres[i] = 0;
@@ -31,11 +31,12 @@ int main(int argc, char * argv[]){
     }
     fclose(pTexto);
 
-    //utilizando o algoritmo de Huffman, cria uma arvore com os caracteres do texto e suas frequencias
+    //utilizando o algoritmo de Huffman, cria uma árvore com os caracteres do texto e suas frequências
     Lista* listaHuffman = criaListaDeArvores(caracteres, tam);
     listaHuffman = criaArvoreUnica(listaHuffman);
     Arvore* arvoreHuffman = retornaArvoreLista(listaHuffman); 
 
+    //cria um bitmap para cada nó folha da árvore
     arvoreHuffman = percorreArvoreBM(arvoreHuffman, NULL, alturaArvore(arvoreHuffman), 0);
 
     //abre arquivo binario que conterá o codigo de conversão e texto compactado
@@ -44,23 +45,26 @@ int main(int argc, char * argv[]){
     
     /*
     AQUI FALTA
-    1- COMENTAR
-    2- ATUALIZAR PDF COM BINARIO.C
+    1- arv.h (faltam 3)
+    2- arv.c (7)
+    3- bin.c (3)
+    4- huffman.c 
     */
     
+    //escreve a árvore de huffman no arquivo binário
     bitmap* arvoreBM = bitmapInit(limiteBM);
     escreveArvoreBinario(arvoreHuffman, arvoreBM, pBinario);
 
-    //relê o arquivo de texto colocando as codificações de cada char no arquivo binario
+    //relê o arquivo de texto colocando as codificações de cada char no arquivo binário
     pTexto = fopen(nomeArquivoTxt, "rb");
     int nBitMap = 1;
     bitmap** fraseFinal = malloc(sizeof(bitmap*));
     fraseFinal[nBitMap - 1] = bitmapInit(limiteBM);
-
     fraseFinal = escreveBinario(arvoreHuffman, pTexto, pBinario, fraseFinal, &nBitMap);
+    
+    //libera a memória alocada
     fclose(pTexto);
     fclose(pBinario);
-
     liberaLista(listaHuffman);
     arvoreHuffman = liberaArvore(arvoreHuffman);
     for(int i=0; i<nBitMap; i++){
