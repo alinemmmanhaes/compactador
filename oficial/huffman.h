@@ -24,7 +24,7 @@ Lista *retiraInicioLista(Lista *l);
 
 /*Função que, a partir da lista de árvores irá gerar uma arvóre única, que se tornará no final do
 processo a única célula da lista. Dentro de um loop, os dois primeiros nós da lista seráo retirados e 
-inseridos como nós filhos de uma nova ávrore, que será colocada de volta na lista. Esse processo irá se repetir 
+inseridos como nós filhos de uma nova árvore, que será colocada de volta na lista. Esse processo irá se repetir 
 até que haja apenas uma célula na lista*/
 Lista *criaArvoreUnica(Lista *l);
 

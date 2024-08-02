@@ -213,7 +213,7 @@ unsigned char converteBinInt(bitmap* bm, int* index){
 void montaArvore(Arvore* a, bitmap* bm, int* i){
     //Recupera um bit do bitmap na posição passada
     unsigned char c = bitmapGetBit(bm, (unsigned int)*i);
-    //Se o bit for 0, significa que se trata de árvore raiz, então cria e monta para ela subárores da esquera e direita 
+    //Se o bit for 0, significa que se trata de árvore raiz, então cria e monta para ela subárvores da esquera e direita 
     if(c == 0){
         a->esq = criaArvoreVazia();
         a->dir = criaArvoreVazia();
