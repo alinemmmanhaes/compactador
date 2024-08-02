@@ -43,11 +43,6 @@ int main(int argc, char * argv[]){
     sprintf(nomeArquivoBin, "%s.comp", nomeArquivoTxt);
     FILE* pBinario = fopen(nomeArquivoBin, "wb");
     
-    /*
-    AQUI FALTA
-    3- bin.c (3)
-    */
-    
     //escreve a árvore de huffman no arquivo binário
     bitmap* arvoreBM = bitmapInit(limiteBM);
     escreveArvoreBinario(arvoreHuffman, arvoreBM, pBinario);

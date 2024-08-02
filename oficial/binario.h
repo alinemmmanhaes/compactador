@@ -20,8 +20,7 @@ insere-se 0 no bitmap. Se for folha, insere-se 1 e o binário correspondente a s
 Depois, o bitmap da árvore é escrito no arquivo compactado.*/
 void escreveArvoreBinario(Arvore* a, bitmap* bm, FILE* pBin);
 
-/* Para cada bit 0, criamos uma árvore com árvores vazias que serão formadas em recursão. 
-Se o bit for 1, convertemos os bits lidos para unsigned char e o guardamos.*/
+/*Lê a árvore de Huffman de um arquivo binário*/
 void leArvoreBinario(Arvore* a, bitmap* bm, FILE* pBin);
 
 #endif
