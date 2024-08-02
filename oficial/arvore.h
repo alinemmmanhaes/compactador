@@ -34,20 +34,19 @@ unsigned char retornaCaracter(Arvore* a);
 /*Calcula a altura da árvore*/
 unsigned int alturaArvore(Arvore* a);
 
-/*Função que, por meio de recursão, gera os bitmaps dos caminhos percorridos na árvore. 
-Para cada folha da árvore esse bitmap é guardado*/
+/*Percorre a árvore e associa a cada nó folha um bitmap correspondente ao seu caminho*/
 Arvore* percorreArvoreBM(Arvore* a, bitmap* bm, unsigned int tam, int bit);
 
 /*Retorna o bitmap da árvore cujo caracter é o mesmo do passado como parâmetro*/
 bitmap* retornaBMChar(Arvore* a, unsigned char c);
 
-/**/
+/*Decodifica o bitmap para o texto original e escreve no arquivo de texto*/
 void decodifica(Arvore* a, FILE* pTexto, bitmap** bm, int* totalLength, int* index, int* i);
 
-/**/
+/*Escreve a árvore em formato de bitmap*/
 void escreveArvoreBM(Arvore* a, bitmap* bm);
 
-/**/
+/*Monta a árvore a partir do bitmap passado*/
 void montaArvore(Arvore* a, bitmap* bm, int* i);
 
 #endif

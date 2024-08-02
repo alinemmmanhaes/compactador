@@ -45,10 +45,7 @@ int main(int argc, char * argv[]){
     
     /*
     AQUI FALTA
-    1- arv.h (faltam 3)
-    2- arv.c (7)
     3- bin.c (3)
-    4- huffman.c 
     */
     
     //escreve a árvore de huffman no arquivo binário
