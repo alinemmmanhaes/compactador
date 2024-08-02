@@ -1,3 +1,5 @@
+/*Arquivo criado por: Aline Mendonça Mayerhofer Manhães e Marcela Carpenter da Paixão*/
+
 #ifndef huffman_h
 #define huffman_h
 

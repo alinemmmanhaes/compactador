@@ -1,3 +1,5 @@
+/*Arquivo criado por: Aline Mendonça Mayerhofer Manhães e Marcela Carpenter da Paixão*/
+
 #ifndef binario_h
 #define binario_h
 
